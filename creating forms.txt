@@ -1,0 +1,19 @@
+<!-- views/new.ejs -->
+<form action="/posts" method="POST">
+  <input type="text" name="title" placeholder="Title">
+  <textarea name="content" placeholder="Content"></textarea>
+  <button type="submit">Create Post</button>
+</form>
+
+
+router.post('/', async (req, res) => {
+  const { title, content } = req.body;
+  try {
+    const newPost = new Post({ title, content });
+    await newPost.save();
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
